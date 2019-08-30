@@ -1,0 +1,281 @@
+dec
+html,body,div,img{
+    padding: 0;
+    margin: 0;
+}
+html{
+    width: 100%;
+    height: 100%;
+    /*width: 1600px;*/
+    /*height: 900px;*/
+    /*overflow: scroll;*/
+}
+body{
+    width: 100%;
+    height: 100%;
+    font: Microsoft YaHei 14px;
+    overflow: hidden;
+    position: relative;
+}
+.audioWrapper{
+    position: absolute;
+    right: 2%;
+    top: 2%;
+    z-index: 50;
+}
+.musicicon{
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+
+.index1{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: url("../images/index1_bg.jpg");
+    background-size:100% 100%;
+    z-index: 30;
+    overflow: hidden;
+}
+.index1 img{
+    position: absolute;
+    bottom: 30%;
+    left: 5%;
+    transform: rotate(-25deg);
+    width: 40%;
+}
+
+/*mainIndex部分*/
+.index2{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*background-color: #FFC0CB;*/
+    /*background-color:#A6CFEA;*/
+    background-color: #FFDDE3;
+    z-index: 20;
+    /*display: none;*/
+}
+.earthWrapper{
+     width: 100%;
+     height: 100%;
+     position: relative;
+}
+.earth{
+    position: absolute;
+    left: 17%;
+    /*top: 44%;*/
+    width: 66%;
+    
+}
+.earthImg{
+    width: 100%;
+}
+.bikeImg{
+    width: 24%;
+    position: absolute;
+    left: 38%;
+    top: 2%;
+    cursor: pointer;
+    /*background: url("images/bike2.gif");*/
+}
+.myhead{
+    width: 5%;
+    position: absolute;
+    left: 49.8%;
+    top: 7.5%;
+    transform-origin:50% 95%;
+}
+.pighead{
+    width: 5%;
+    position: absolute;
+    left: 53.8%;
+    top: 8%;
+    transform-origin:50% 95%;
+}
+
+
+.timeWrapper{
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    text-align: center;
+}
+.dateImg{
+    /*width: 220px;*/
+}
+.realtime{
+    margin-top: 10px;
+    color: #fff;
+}
+.realtime span{
+    font-size: 28px;
+    margin: 0 2px;
+}
+.realtime .unit{
+    font-size: 14px;
+}
+
+.love-tree{
+    position: absolute;
+    /*bottom: -90px;*/
+    /*right: -100px;*/
+    bottom: -13%;
+    right: -6%;
+    transform: rotate(-6deg);
+    width: 46.8%;
+}
+.heartFlowWrapper{
+    /*width: 73%;*/
+    /*height: 50%;*/
+    position: absolute;
+    /*bottom: 50%;*/
+    /*right: 27%;*/
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+}
+.heartEles{
+    /*background-color: #000;*/
+    background: url("../images/heart_bg.png");
+    background-size: 100% 100%;
+    /*width: 100px;*/
+    /*height: 100px;*/
+    position: absolute;
+    /*background: #a0a0a0;*/
+    /*top: 162px;*/
+    /*right: 374px;*/
+    /*transform: rotate(-50deg);*/
+    cursor: pointer;
+    z-index: 25;
+}
+
+.moon{
+    width: 25%;
+    height: 35%;
+    position: absolute;
+    top: 20px;
+    left:0;
+    /*z-index: 25;*/
+}
+.heartphotos{
+    position: absolute;
+    padding: 10px;
+    background: #fff;
+    /*border: 5px solid #EDB532;*/
+    border-radius: 5px;
+    box-shadow: 0 0 10px;
+    z-index: 25;
+    visibility: hidden;
+    /*visibility: visible;*/
+}
+.borderColor1{
+    border: 5px solid #FD3A40;
+}
+.borderColor2{
+    border: 5px solid #FDB900;
+}
+.borderColor3{
+    border: 5px solid #FFFE00;
+}
+.borderColor4{
+    border: 5px solid #2EFF01;
+}
+.borderColor5{
+    border: 5px solid #03FFFF;
+}
+.borderColor6{
+    border: 5px solid #40A5FF;
+}
+.borderColor7{
+    border: 5px solid #DF6FFF;
+}
+.heartphotosImg{
+    border-radius: 10px;
+    display: block;
+
+}
+/*.heartphotos::before{*/
+    /*!*border: #fff;*!*/
+    /*content: 'qqqqqqqqq';*/
+    /*!*width: 101%;*!*/
+    /*!*height: 101%;*!*/
+    /*background: #fff;*/
+    /*font-size: 40px;*/
+/*}*/
+
+/*index3部分*/
+.index3{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color:#FFDDE3;
+}
+
+#menu {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    z-index: 3;
+}
+
+.photoEle {
+    width: 120px;
+    height: 160px;
+    position: relative;
+    /*box-shadow: 0px 0px 12px rgba(0,255,255,0.5);*/
+    /*border: 1px solid rgba(127,255,255,0.25);*/
+    box-shadow: 0px 0px 12px rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,0,0,0.25);
+    overflow: hidden;
+
+}
+.photoEle:hover {
+    box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+    border: 1px solid rgba(127,255,255,0.75);
+}
+.imgEle{
+    width: 100%;
+    position: absolute;
+    margin: auto;
+    top: -9999px;
+    bottom: -9999px;
+    left: -9999px;
+    right: -9999px;
+    /*width: 120px;*/
+    /*box-shadow: 0px 0px 12px rgba(0,255,255,0.5);*/
+    /*border: 1px solid rgba(127,255,255,0.25);*/
+
+}
+/*.imgEle:hover {*/
+    /*box-shadow: 0px 0px 12px rgba(0,255,255,0.75);*/
+    /*border: 1px solid rgba(127,255,255,0.75);*/
+/*}*/
+
+button {
+    color: rgba(127,255,255,0.75);
+    background: transparent;
+    outline: 1px solid rgba(127,255,255,0.75);
+    border: 0px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: rgba(0,255,255,0.5);
+}
+button:active {
+    color: #000000;
+    background-color: rgba(0,255,255,0.75);
+}
+

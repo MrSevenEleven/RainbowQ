@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>王聪是个大帅哥</title>
+    <link rel="stylesheet" href="css/gq.css">
+</head>
+<body>
+    <div class="audioWrapper">
+        <audio id="music" autoplay="autoplay" src="video/music.mp3"></audio>
+        <img class="musicicon rotateImg" src="images/icon-music.png"/>
+    </div>
+    <div class="index3" id="index3">
+        <!--<div id="menu">-->
+            <!--<button id="sphere">SPHERE</button>-->
+            <!--<button id="helix">HELIX</button>-->
+            <!--<button id="grid">GRID</button>-->
+        <!--</div>-->
+    </div>
+
+
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <!--<script src="echarts/echarts.js"></script>-->
+    <!--<script src="echarts/echarts-gl.js"></script>-->
+    <!--<script src="echarts/world.js"></script>-->
+    <script src="photosIndex/js/three.js"></script>
+    <script src="photosIndex/js/tween.min.js"></script>
+    <script src="photosIndex/js/TrackballControls.js"></script>
+    <script src="photosIndex/js/CSS3DRenderer.js"></script>
+    <!--<script src="js/Earth.js"></script>-->
+    <!--<script src="js/gq.js"></script>-->
+    <script>
+        photosShowCase();
+        musicControl();
+        /**
+         *
+         * index3多模型照片展示
+         */
+        function photosShowCase() {
+            var num=106;
+
+            var camera, scene, renderer;
+            var controls;
+
+            var objects = [];
+            var targets = { sphere: [], helix: [], grid: [] };
+
+            var init=function(){
+
+                camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+                camera.position.z = 2000;
+
+                scene = new THREE.Scene();
+
+                // sphere
+
+                var vector = new THREE.Vector3();
+                var spherical = new THREE.Spherical();
+
+                for ( var i = 0,l=num; i < l; i++ ) {
+
+                    var element = document.createElement( 'div' );
+                    element.className = 'photoEle';
+                    // element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+                    // element.style.backgroundImage='url(photos/star.png)';
+                    // element.style.backgroundImage="url(photos/"+(i+1)+".jpg)";
+                    // element.style.backgroundSize='100% 100%';
+
+                    var img=document.createElement('img');
+                    img.className='imgEle';
+                    img.src="photos/"+(i+1)+".jpg";
+                    element.appendChild(img);
+
+
+                    var object = new THREE.CSS3DObject( element );
+                    object.position.x = Math.random() * 4000 - 2000;
+                    object.position.y = Math.random() * 4000 - 2000;
+                    object.position.z = Math.random() * 4000 - 2000;
+                    scene.add( object );
+
+                    objects.push( object );
+
+                    //
+
+                    var phi = Math.acos( -1 + ( 2 * i ) / l );
+                    var theta = Math.sqrt( l * Math.PI ) * phi;
+
+                    var object = new THREE.Object3D();
+
+                    spherical.set( 600, phi, theta );
+
+                    object.position.setFromSpherical( spherical );
+
+                    vector.copy( object.position ).multiplyScalar( 2 );
+
+                    object.lookAt( vector );
+
+                    targets.sphere.push( object );
+
+
+                }
+
+
+
+
+                // helix
+
+                var vector = new THREE.Vector3();
+                var cylindrical = new THREE.Cylindrical();
+
+                for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+                    // var theta = i * 0.175 + Math.PI;
+                    // var y = - ( i * 8 ) + 350;
+                    var theta = i * 2 + Math.PI;
+                    var y = - ( i * 14 ) + 800;
+
+                    var object = new THREE.Object3D();
+
+                    cylindrical.set( 700, theta, y );
+
+                    object.position.setFromCylindrical( cylindrical );
+
+                    vector.x = object.position.x * 2;
+                    vector.y = object.position.y;
+                    vector.z = object.position.z * 2;
+
+                    object.lookAt( vector );
+
+                    targets.helix.push( object );
+
+                }
+
+                // grid
+
+                for ( var i = 0; i < objects.length; i ++ ) {
+
+                    var object = new THREE.Object3D();
+
+                    object.position.x = ( ( i % 5 ) * 400 ) - 800;
+                    object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+                    object.position.z = -( Math.floor( i / 25 ) ) * 1000 + 1000;
+
+                    targets.grid.push( object );
+
+                }
+
+                //
+
+                renderer = new THREE.CSS3DRenderer();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                renderer.domElement.style.position = 'absolute';
+                document.getElementById( 'index3' ).appendChild( renderer.domElement );
+
+                //
+
+                controls = new THREE.TrackballControls( camera, renderer.domElement );
+                controls.rotateSpeed = 3;
+                controls.minDistance = 300;
+                controls.maxDistance = 6000;
+                controls.addEventListener( 'change', render );
+
+                // var button = document.getElementById( 'sphere' );
+                // button.addEventListener( 'click', function ( event ) {
+                //
+                //     transform( targets.sphere, 2000 );
+                //
+                // }, false );
+                //
+                // var button = document.getElementById( 'helix' );
+                // button.addEventListener( 'click', function ( event ) {
+                //
+                //     transform( targets.helix, 2000 );
+                //
+                // }, false );
+                //
+                // var button = document.getElementById( 'grid' );
+                // button.addEventListener( 'click', function ( event ) {
+                //
+                //     transform( targets.grid, 2000 );
+                //
+                // }, false );
+
+                /**
+                 * @标题：展示模型切换
+                 * @描述：
+                 */
+                var targetName=["sphere","helix","grid"];
+                var targetIndex=0;
+                var continueTransformTimer;
+                var startTransformTimer;
+                var continueTransform=function(){
+                    if(targetIndex>2){
+                        targetIndex=0;
+                    };
+                    transform( targets[targetName[targetIndex]], 3000 );//模型转换时间
+                    targetIndex++;
+                    continueTransformTimer=setInterval(function(){
+                        if(targetIndex>2){
+                            targetIndex=0;
+                        };
+                        transform( targets[targetName[targetIndex]], 3000 );
+                        targetIndex++;
+                    },8000);//单个模型展示时间
+                };
+                continueTransform();
+                var index3=document.getElementById('index3');
+                index3.addEventListener('click',function(event){
+                    clearTimeout(startTransformTimer);
+                    clearInterval(continueTransformTimer);
+                    //鼠标停止点击动作后多久重新开始轮换展示模型
+                    startTransformTimer=setTimeout(continueTransform,1000*10)
+                });
+                //
+
+                window.addEventListener( 'resize', onWindowResize, false );
+
+            };
+
+            var transform=function( targets, duration ) {
+
+                TWEEN.removeAll();
+
+                for ( var i = 0; i < objects.length; i ++ ) {
+
+                    var object = objects[ i ];
+                    var target = targets[ i ];
+
+                    new TWEEN.Tween( object.position )
+                        .to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+                        .easing( TWEEN.Easing.Exponential.InOut )
+                        .start();
+
+                    new TWEEN.Tween( object.rotation )
+                        .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+                        .easing( TWEEN.Easing.Exponential.InOut )
+                        .start();
+
+                }
+
+                new TWEEN.Tween( this )
+                    .to( {}, duration * 2 )
+                    .onUpdate( render )
+                    .start();
+
+            };
+
+            var onWindowResize=function() {
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize( window.innerWidth, window.innerHeight );
+
+                render();
+
+            };
+
+            var animate=function() {
+
+                requestAnimationFrame( animate );
+
+                TWEEN.update();
+
+                controls.update();
+
+            };
+
+            var render=function() {
+
+                renderer.render( scene, camera );
+
+            };
+
+            init();
+            animate();
+
+        }
+        /**
+         *
+         * 音乐播放控制
+         */
+        function musicControl() {
+            var deg=0;
+            var imgTimer;
+            var audio = document.getElementById('music');
+            audio.currentTime = 0;//音乐从头播放
+            audio.play();
+            var rotateImg=function(){
+                $(".musicicon").css("transform","rotate("+deg+"deg)");
+                deg=deg<360?deg+2:0;
+                imgTimer=requestAnimationFrame(function(){
+                    rotateImg();
+                });
+            };
+            rotateImg();
+
+            $(".musicicon").on("click",function(){
+                if (audio.paused) {
+                    audio.play();
+                    rotateImg();
+                }else{
+                    audio.pause();
+                    // audio.currentTime = 0;//音乐从头播放
+                    cancelAnimationFrame(imgTimer);
+                }
+            })
+
+        }
+    </script>
+<html>
