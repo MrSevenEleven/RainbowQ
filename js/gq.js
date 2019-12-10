@@ -1,7 +1,6 @@
 
 
 $(function () {
-
     openingAnimation();
     musicControl();
     //window页面加载完启动index2彩虹球，防止切换index时执行造成的卡顿丢帧
@@ -161,9 +160,12 @@ function earthAnimation(){
             interval:100,
             // 波动范围
             range:4,
-            // 起始位置
+            // 起始位置(以right,bottom为基准)
             x:"15%",
             y:"50%",
+            //移动端起始位置(以right,bottom为基准)
+            appx:"10%",
+            appy:"6%",
             // 步长
             xStep:2,
             yStepRange:4,
@@ -186,12 +188,12 @@ function earthAnimation(){
     };
     Heartflow.prototype.init=function(){
         var _this=this;
-        var times=0;
+        var times=0;//生成元素的唯一序列id
         _this.createEles(times);
         _this.moveEles();
         _this.hoverEles();
         var time=setInterval(function(){
-            times++
+            times++;
             _this.createEles(times);
         },_this.settings.periods);
 
@@ -200,15 +202,19 @@ function earthAnimation(){
 
     };
     Heartflow.prototype.createEles=function(times){
+        var WrapperWidth=$(this.element).width();
+        var WrapperHeight=$(this.element).height();
         for(var i=0;i<this.settings.amounts;i++){
             var ele={
                 id:"heartEle"+(times*this.settings.amounts+i),
                 x:this.settings.x,
                 y:this.settings.y,
+                appx:this.settings.appx,
+                appy:this.settings.appy,
                 width:this.settings.width,
                 height:this.settings.height,
-                curX:this.settings.x,
-                curY:this.settings.y,
+                curX:WrapperWidth>500?this.settings.x:this.settings.appx,
+                curY:WrapperWidth>500?this.settings.y:this.settings.appy,
                 deg:this.settings.deg,
                 // range:Math.random()*this.settings.range,
                 xStep:this.settings.xStep+Math.random()*this.settings.range,
@@ -219,10 +225,9 @@ function earthAnimation(){
             };
             ele.width+=ele.sizeRange;
             ele.height+=ele.sizeRange;
-            var WrapperWidth=$(this.element).width();
-            var WrapperHeight=$(this.element).height();
             ele.curY=ele.curY.indexOf("%")>-1?ele.curY.substr(0,ele.curY.length-1)*WrapperHeight/100:ele.curY;
             ele.curX=ele.curX.indexOf("%")>-1?ele.curX.substr(0,ele.curX.length-1)*WrapperWidth/100:ele.curX;
+            ele.xStep=WrapperWidth<500?ele.xStep*WrapperWidth/900:ele.xStep;//移动端减缓x方向移动速度
             // var colorClass="";
             // var colorRandom=Math.random()*100;
             // if(colorRandom<=14.2){colorClass="heartColor1"}
@@ -270,7 +275,7 @@ function earthAnimation(){
     Heartflow.prototype.hoverEles=function(){
         var _this=this;
         var pauseEles={};
-        var heartIndex=0;
+        var photosNumber=0;
         $(this.element).on("mouseenter",".heartEles",function () {
             var target=this;
             $.each(_this.eles,function(index,info){
@@ -285,12 +290,12 @@ function earthAnimation(){
                 }
             })
 
-            heartIndex++;
+            photosNumber++;
             var totaljpg=106;//照片总数
             var jpgnumber=Math.ceil(Math.random()*totaljpg);
             var borderColorClass="borderColor"+Math.ceil(Math.random()*7);//相框颜色
             var photowidth=pauseEles.width*8;
-            $(_this.element).append('<div class="heartphotos '+borderColorClass+'" id="heartphoto'+heartIndex+'"><img class="heartphotosImg"  style="width:'+photowidth+'px" src="photos/'+jpgnumber+'.jpg"/></div>');
+            $(_this.element).append('<div class="heartphotos '+borderColorClass+'" id="heartphoto'+photosNumber+'"><img class="heartphotosImg"  style="width:'+photowidth+'px" src="photos/'+jpgnumber+'.jpg"/></div>');
 
 
 
@@ -316,22 +321,22 @@ function earthAnimation(){
             //     }
             // })
 
-            if($("#heartphoto"+heartIndex).css("visibility")!="visible"){
-                $("#heartphoto"+heartIndex).remove();
+            if($("#heartphoto"+photosNumber).css("visibility")!="visible"){
+                $("#heartphoto"+photosNumber).remove();
             };
 
         });
         $(this.element).on("click",".heartEles",function () {
             var target=this;
 
-            var photoright=pauseEles.curX-$("#heartphoto"+heartIndex).width()/2;
-            var photobottom=pauseEles.curY-$("#heartphoto"+heartIndex).height()/2;
+            var photoright=pauseEles.curX-$("#heartphoto"+photosNumber).width()/2;
+            var photobottom=pauseEles.curY-$("#heartphoto"+photosNumber).height()/2;
             var photorotatedeg=Math.random()*60-30;
-            $("#heartphoto"+heartIndex).css({"right":photoright,"bottom":photobottom,"transform":"rotate("+photorotatedeg+"deg)"});
+            $("#heartphoto"+photosNumber).css({"right":photoright,"bottom":photobottom,"transform":"rotate("+photorotatedeg+"deg)"});
             // setTimeout(function(){
-            //     $("#heartphoto"+heartIndex).css("visibility","visible");
+            //     $("#heartphoto"+photosNumber).css("visibility","visible");
             // },100)
-            $("#heartphoto"+heartIndex).css("visibility","visible");
+            $("#heartphoto"+photosNumber).css("visibility","visible");
         });
         $(this.element).on("click",".heartphotos",function(){
             $(this).remove();
@@ -340,12 +345,13 @@ function earthAnimation(){
     };
 
     $.fn[pluginName] = function(options){
-        this.each(function() {
-            if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" + pluginName, new Heartflow(this, options));
-            }
-        });
-        return this;
+        return new Heartflow(this, options);
+        // this.each(function() {
+        //     if (!$.data(this, "plugin_" + pluginName)) {
+        //         $.data(this, "plugin_" + pluginName, new Heartflow(this, options));
+        //     }
+        // });
+        // return this;
     }
 
 })();
