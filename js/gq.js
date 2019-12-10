@@ -99,6 +99,7 @@ function  openingAnimation(){
             frametimer=requestAnimationFrame(animate);
         }else{
             //index1首页消失停止帧循环
+            $(".index1").css({"width":0,"height":0});
             cancelAnimationFrame(frametimer);
         }
     }
@@ -269,7 +270,7 @@ function earthAnimation(){
     Heartflow.prototype.hoverEles=function(){
         var _this=this;
         var pauseEles={};
-        var photosNumber=0;
+        var heartIndex=0;
         $(this.element).on("mouseenter",".heartEles",function () {
             var target=this;
             $.each(_this.eles,function(index,info){
@@ -284,12 +285,12 @@ function earthAnimation(){
                 }
             })
 
-            photosNumber++;
+            heartIndex++;
             var totaljpg=106;//照片总数
             var jpgnumber=Math.ceil(Math.random()*totaljpg);
             var borderColorClass="borderColor"+Math.ceil(Math.random()*7);//相框颜色
             var photowidth=pauseEles.width*8;
-            $(_this.element).append('<div class="heartphotos '+borderColorClass+'" id="heartphoto'+photosNumber+'"><img class="heartphotosImg"  style="width:'+photowidth+'px" src="photos/'+jpgnumber+'.jpg"/></div>');
+            $(_this.element).append('<div class="heartphotos '+borderColorClass+'" id="heartphoto'+heartIndex+'"><img class="heartphotosImg"  style="width:'+photowidth+'px" src="photos/'+jpgnumber+'.jpg"/></div>');
 
 
 
@@ -315,22 +316,22 @@ function earthAnimation(){
             //     }
             // })
 
-            if($("#heartphoto"+photosNumber).css("visibility")!="visible"){
-                $("#heartphoto"+photosNumber).remove();
+            if($("#heartphoto"+heartIndex).css("visibility")!="visible"){
+                $("#heartphoto"+heartIndex).remove();
             };
 
         });
         $(this.element).on("click",".heartEles",function () {
             var target=this;
 
-            var photoright=pauseEles.curX-$("#heartphoto"+photosNumber).width()/2;
-            var photobottom=pauseEles.curY-$("#heartphoto"+photosNumber).height()/2;
+            var photoright=pauseEles.curX-$("#heartphoto"+heartIndex).width()/2;
+            var photobottom=pauseEles.curY-$("#heartphoto"+heartIndex).height()/2;
             var photorotatedeg=Math.random()*60-30;
-            $("#heartphoto"+photosNumber).css({"right":photoright,"bottom":photobottom,"transform":"rotate("+photorotatedeg+"deg)"});
+            $("#heartphoto"+heartIndex).css({"right":photoright,"bottom":photobottom,"transform":"rotate("+photorotatedeg+"deg)"});
             // setTimeout(function(){
-            //     $("#heartphoto"+photosNumber).css("visibility","visible");
+            //     $("#heartphoto"+heartIndex).css("visibility","visible");
             // },100)
-            $("#heartphoto"+photosNumber).css("visibility","visible");
+            $("#heartphoto"+heartIndex).css("visibility","visible");
         });
         $(this.element).on("click",".heartphotos",function(){
             $(this).remove();
