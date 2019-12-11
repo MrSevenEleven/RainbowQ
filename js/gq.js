@@ -37,7 +37,7 @@ function adjustPhone(){
             if(bIsIpad || bIsIphone || bIsMidp || bIsUc7 || bIsUc || bIsCE || bIsWM || bIsAndroid ){
                 $(".index1 img").css({"width":"82%","bottom":"43%"});
                 $(".love-tree").css({"bottom":"-3%","right":"-3%"});
-                $(".moon").css({"left":"20%","width":"60%","height":"20%","top":"20%"});
+                $(".moon").css({"left":"20%","width":"60%","height":"20%","top":"24%"});
                 $(".earth").css("bottom","18%");
 
             }

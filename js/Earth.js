@@ -8,7 +8,7 @@ function doRainbowBall() {
         //backgroundColor: '#000',
         globe: {
             globeRadius: 85,
-            baseTexture: '/images/timg.jpg',
+            baseTexture: './images/timg.jpg',
             //silent: true,
             //environment: 'Echart3_Earth/image/earth_background.jpg',
             // displacementQuality: 'ultra',
@@ -34,7 +34,7 @@ function doRainbowBall() {
                 // targetCoord: [103.19501,34.844326]
             },
             postEffect: {
-                enable: true,
+                enable: false,//景深特效，开启后会导致移动端失效
                 // SSAO: {
                 //     enable: false,
                 //     radius: 10
